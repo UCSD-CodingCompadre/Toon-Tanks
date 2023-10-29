@@ -1,0 +1,56 @@
+#include "Turret.h"
+#include  "Tank.h"
+#include "Kismet/GameplayStatics.h"
+
+void ATurret::BeginPlay()
+{
+    Super::BeginPlay();
+
+    // Set the playerTank pointer by grabbing the player pawn
+    playerTank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+    // Set a timer that checks if the turret can fire
+    GetWorldTimerManager().SetTimer(fireRateTimeHandle, this, &ATurret::checkFireCondition, fireRate, true, 2.f);
+}
+
+
+bool ATurret::isInFireRange()
+{
+
+    // Check if there is a player tank
+    if(playerTank)
+    {
+
+        // Return true if the player tank is in range
+        return FVector::Dist(GetActorLocation(), playerTank->GetActorLocation()) <= turretRange;
+    }
+
+    // Default return false
+    return false;
+}
+
+void ATurret::checkFireCondition()
+{
+
+    // Check if the player tank is in fire range
+    if(isInFireRange())
+    {
+
+        // Fire the projectile at the player tank
+        fire();
+    }
+} 
+
+void ATurret::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    // Check if the player tank is in fire range
+    if(isInFireRange())
+    {
+
+        // Rotate the turret's tankTurretComponent to face the player tank
+        rotateTurretComponent(playerTank->GetActorLocation());
+    }
+}
+
