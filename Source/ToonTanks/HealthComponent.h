@@ -10,11 +10,13 @@ class TOONTANKS_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	
 	// Sets default values for this component's properties
 	UHealthComponent();
 
 protected:
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
@@ -27,6 +29,9 @@ private:
 	// Hold the current health
 	float currentHealth = 0.f;
 
+	// Hold the game mode of our game
+	class AToonTanksGameMode* gameMode;
+
 	/*
 	Callback function that handles the damage taken
 	@param AActor* actorDamaged the actor damaged
@@ -35,6 +40,4 @@ private:
 	*/
 	UFUNCTION()
 	void damageTaken(AActor* actorDamaged, float damage, const UDamageType* damageType, AController* instigator, AActor* damageCauser);
-
-		
 };

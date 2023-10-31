@@ -4,6 +4,8 @@
 
 void ATurret::BeginPlay()
 {
+
+    // Call the parent BeginPlay()
     Super::BeginPlay();
 
     // Set the playerTank pointer by grabbing the player pawn
@@ -13,6 +15,15 @@ void ATurret::BeginPlay()
     GetWorldTimerManager().SetTimer(fireRateTimeHandle, this, &ATurret::checkFireCondition, fireRate, true, 2.f);
 }
 
+void ATurret::handlePawnDestruction()
+{
+
+    // Call the parent's handlePawnDestruction
+    Super::handlePawnDestruction();
+
+    // Destroy the turret
+    Destroy();
+}
 
 bool ATurret::isInFireRange()
 {
@@ -33,7 +44,7 @@ void ATurret::checkFireCondition()
 {
 
     // Check if the player tank is in fire range
-    if(isInFireRange())
+    if(isInFireRange() && playerTank->isTankAlive)
     {
 
         // Fire the projectile at the player tank
@@ -43,7 +54,6 @@ void ATurret::checkFireCondition()
 
 void ATurret::Tick(float DeltaTime)
 {
-    Super::Tick(DeltaTime);
 
     // Check if the player tank is in fire range
     if(isInFireRange())

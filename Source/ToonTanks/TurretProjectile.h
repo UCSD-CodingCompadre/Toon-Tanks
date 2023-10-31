@@ -5,6 +5,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "TurretProjectile.generated.h"
 
+class USoundBase;
+
 UCLASS()
 class TOONTANKS_API ATurretProjectile : public AActor
 {
@@ -27,6 +29,30 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess= "true"))
 	UProjectileMovementComponent* projectileMovementComponent;
 
+	// Hold the damage of the projectile
+	UPROPERTY(EditAnywhere)
+	float damage = 50.f;
+
+	// Hold the particle system for the projectile
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class UParticleSystem* hitParticles;
+
+	// Hold the particle system component for the projectile trail
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	class UParticleSystemComponent* trailParticles;
+
+	// Hold the sound for the projectile
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* launchSound;
+
+	// Hold the sound for the hit
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* hitSound;
+
+	// Hold the camera shake
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	TSubclassOf<class UCameraShakeBase> hitCameraShakeClass;
+
 	/*
 	Callback function that handles the projectile hitting an actor
 	@param UPrimitiveComponent* hitComponent the component that caused the hit
@@ -40,7 +66,9 @@ private:
 	void onHit(UPrimitiveComponent* hitComponent, AActor* actorHit, 
 	UPrimitiveComponent* otherComponent, FVector impluse, const FHitResult& hit);
 
-	// Hold the damage of the projectile
-	UPROPERTY(EditAnywhere)
-	float damage = 50.f;
+public:
+	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 };

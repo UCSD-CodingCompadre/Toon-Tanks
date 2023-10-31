@@ -36,6 +36,35 @@ ABasePawn::ABasePawn()
 	spawnProjectileComponent->SetupAttachment(tankTurretComponent);
 }
 
+void ABasePawn::handlePawnDestruction()
+{
+	
+	// Check if we have death particles
+	if(deathParticles)
+	{
+
+		// Spawn the death particles
+		UGameplayStatics::SpawnEmitterAtLocation(this, deathParticles, GetActorLocation(), GetActorRotation());
+	}
+
+	// Check if we have a sound for the pawn death
+	if(deathSound)
+	{
+
+		// Play the death sound
+		UGameplayStatics::PlaySoundAtLocation(this, deathSound, GetActorLocation());
+	}
+
+	// Check if we have a camera shake
+	if(deathCameraShakeClass)
+	{
+
+		// Start the camera shake
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(deathCameraShakeClass);
+	}
+	
+}
+
 void ABasePawn::rotateTurretComponent(FVector targetLocation)
 {
 
@@ -56,7 +85,7 @@ void ABasePawn::fire()
 {
 	
 	// Spawn the projectile into the world and hold it
-	auto projectile = GetWorld()->SpawnActor<ATurretProjectile>(projectileClass,
+	ATurretProjectile* projectile = GetWorld()->SpawnActor<ATurretProjectile>(projectileClass,
 	spawnProjectileComponent->GetComponentLocation(),
 	spawnProjectileComponent->GetComponentRotation());
 

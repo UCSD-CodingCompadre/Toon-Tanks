@@ -18,8 +18,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/*
+	Handle the destruction of the Turret pawn
+	@param none
+	@return void
+	*/
+	void handlePawnDestruction();
+
 protected:
-	
+		
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

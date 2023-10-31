@@ -22,6 +22,22 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Hold if the tank is alive
+	bool isTankAlive = true;
+	
+	/*
+	Handle the destruction of the Tank pawn
+	@param none
+	@return void
+	*/
+	void handlePawnDestruction();
+
+	/*
+	Get the player controller
+	@param none
+	@return APlayerController* the pawns controller
+	*/
+	APlayerController* getPlayerController() const;
 protected:
 	
 	// Called when the game starts or when spawned
@@ -47,11 +63,11 @@ private:
 
 	// Hold the move speed of the tank
 	UPROPERTY(VisibleAnywhere, Category = "Input")
-	float moveSpeed = 600.0;
+	float moveSpeed = 700.0;
 	
 	// Hold the turn speed of the tank
 	UPROPERTY(VisibleAnywhere, Category = "Input")
-	float turnSpeed = 200.0;
+	float turnSpeed = 150.0;
 
 	// Hold the pointer to the player controller
 	APlayerController* playerController;

@@ -14,6 +14,13 @@ public:
 	// Sets default values for this pawn's properties
 	ABasePawn();
 
+	/*
+	Handle the destruction of the pawn
+	@param none
+	@return void
+	*/
+	void handlePawnDestruction();
+
 protected:
 
 	/*
@@ -51,4 +58,16 @@ private:
 	// Hold the template for the projectile
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess= "true"))
 	TSubclassOf<class ATurretProjectile> projectileClass;
+
+	// Hold the particle system for the pawns
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class UParticleSystem* deathParticles;
+
+	// Hold the sound for the pawn death
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class USoundBase* deathSound;
+
+	// Hold the camera shake
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	TSubclassOf<class UCameraShakeBase> deathCameraShakeClass;
 };
